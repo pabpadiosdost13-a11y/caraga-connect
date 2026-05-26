@@ -1,14 +1,14 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, Bookmark, Building2, Clock, ExternalLink, Mail, Phone, Tag } from "lucide-react";
 import { useEffect, useState } from "react";
-import { getService, SERVICES } from "@/lib/mock-data";
+import { getService, SERVICES, type Service } from "@/lib/mock-data";
 import { ServiceCard } from "@/components/service-card";
 
 export const Route = createFileRoute("/services/$id")({
   loader: ({ params }) => {
     const service = getService(params.id);
     if (!service) throw notFound();
-    return { service };
+    return { service: service as Service };
   },
   head: ({ loaderData }) => ({
     meta: [
