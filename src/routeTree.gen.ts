@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WizardRouteImport } from './routes/wizard'
+import { Route as StoriesRouteImport } from './routes/stories'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as DirectoryRouteImport } from './routes/directory'
 import { Route as IndexRouteImport } from './routes/index'
@@ -18,6 +19,11 @@ import { Route as ServicesIdRouteImport } from './routes/services.$id'
 const WizardRoute = WizardRouteImport.update({
   id: '/wizard',
   path: '/wizard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StoriesRoute = StoriesRouteImport.update({
+  id: '/stories',
+  path: '/stories',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ServicesRoute = ServicesRouteImport.update({
@@ -45,6 +51,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/directory': typeof DirectoryRoute
   '/services': typeof ServicesRouteWithChildren
+  '/stories': typeof StoriesRoute
   '/wizard': typeof WizardRoute
   '/services/$id': typeof ServicesIdRoute
 }
@@ -52,6 +59,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/directory': typeof DirectoryRoute
   '/services': typeof ServicesRouteWithChildren
+  '/stories': typeof StoriesRoute
   '/wizard': typeof WizardRoute
   '/services/$id': typeof ServicesIdRoute
 }
@@ -60,19 +68,33 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/directory': typeof DirectoryRoute
   '/services': typeof ServicesRouteWithChildren
+  '/stories': typeof StoriesRoute
   '/wizard': typeof WizardRoute
   '/services/$id': typeof ServicesIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/directory' | '/services' | '/wizard' | '/services/$id'
+  fullPaths:
+    | '/'
+    | '/directory'
+    | '/services'
+    | '/stories'
+    | '/wizard'
+    | '/services/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/directory' | '/services' | '/wizard' | '/services/$id'
+  to:
+    | '/'
+    | '/directory'
+    | '/services'
+    | '/stories'
+    | '/wizard'
+    | '/services/$id'
   id:
     | '__root__'
     | '/'
     | '/directory'
     | '/services'
+    | '/stories'
     | '/wizard'
     | '/services/$id'
   fileRoutesById: FileRoutesById
@@ -81,6 +103,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DirectoryRoute: typeof DirectoryRoute
   ServicesRoute: typeof ServicesRouteWithChildren
+  StoriesRoute: typeof StoriesRoute
   WizardRoute: typeof WizardRoute
 }
 
@@ -91,6 +114,13 @@ declare module '@tanstack/react-router' {
       path: '/wizard'
       fullPath: '/wizard'
       preLoaderRoute: typeof WizardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stories': {
+      id: '/stories'
+      path: '/stories'
+      fullPath: '/stories'
+      preLoaderRoute: typeof StoriesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/services': {
@@ -140,6 +170,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DirectoryRoute: DirectoryRoute,
   ServicesRoute: ServicesRouteWithChildren,
+  StoriesRoute: StoriesRoute,
   WizardRoute: WizardRoute,
 }
 export const routeTree = rootRouteImport
