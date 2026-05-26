@@ -33,7 +33,7 @@ export const Route = createFileRoute("/services/$id")({
 });
 
 function ServiceDetail() {
-  const { service } = Route.useLoaderData();
+  const { service } = Route.useLoaderData() as { service: Service };
   const related = SERVICES.filter((s) => s.id !== service.id && s.category === service.category).slice(0, 3);
   const [saved, setSaved] = useState(false);
   const [viewed, setViewed] = useState<string[]>([]);
