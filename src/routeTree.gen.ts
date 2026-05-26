@@ -13,6 +13,7 @@ import { Route as WizardRouteImport } from './routes/wizard'
 import { Route as StoriesRouteImport } from './routes/stories'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as DirectoryRouteImport } from './routes/directory'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesIdRouteImport } from './routes/services.$id'
@@ -37,6 +38,11 @@ const DirectoryRoute = DirectoryRouteImport.update({
   path: '/directory',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AssistantRoute = AssistantRouteImport.update({
   id: '/assistant',
   path: '/assistant',
@@ -56,6 +62,7 @@ const ServicesIdRoute = ServicesIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/assistant': typeof AssistantRoute
+  '/dashboard': typeof DashboardRoute
   '/directory': typeof DirectoryRoute
   '/services': typeof ServicesRouteWithChildren
   '/stories': typeof StoriesRoute
@@ -65,6 +72,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/assistant': typeof AssistantRoute
+  '/dashboard': typeof DashboardRoute
   '/directory': typeof DirectoryRoute
   '/services': typeof ServicesRouteWithChildren
   '/stories': typeof StoriesRoute
@@ -75,6 +83,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/assistant': typeof AssistantRoute
+  '/dashboard': typeof DashboardRoute
   '/directory': typeof DirectoryRoute
   '/services': typeof ServicesRouteWithChildren
   '/stories': typeof StoriesRoute
@@ -86,6 +95,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/assistant'
+    | '/dashboard'
     | '/directory'
     | '/services'
     | '/stories'
@@ -95,6 +105,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/assistant'
+    | '/dashboard'
     | '/directory'
     | '/services'
     | '/stories'
@@ -104,6 +115,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/assistant'
+    | '/dashboard'
     | '/directory'
     | '/services'
     | '/stories'
@@ -114,6 +126,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AssistantRoute: typeof AssistantRoute
+  DashboardRoute: typeof DashboardRoute
   DirectoryRoute: typeof DirectoryRoute
   ServicesRoute: typeof ServicesRouteWithChildren
   StoriesRoute: typeof StoriesRoute
@@ -148,6 +161,13 @@ declare module '@tanstack/react-router' {
       path: '/directory'
       fullPath: '/directory'
       preLoaderRoute: typeof DirectoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/assistant': {
@@ -189,6 +209,7 @@ const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AssistantRoute: AssistantRoute,
+  DashboardRoute: DashboardRoute,
   DirectoryRoute: DirectoryRoute,
   ServicesRoute: ServicesRouteWithChildren,
   StoriesRoute: StoriesRoute,
